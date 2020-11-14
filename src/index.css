@@ -1,0 +1,110 @@
+:root {
+  --primary-color: #4D4D4D;
+  --complete-color: #27aa80;
+  --text-color: #414141;
+  --disabled-color: #BDCEE2;
+  --background-color: #CECBCC;
+  --template-card-color: #D1CEE3;
+  --template-card-header-color: #5E5A82;
+  --nav-bg-color: #222432;
+  --nav-font-color: #757681;  
+}
+
+html {
+  background: var(--background-color);
+}
+
+body {
+  color: var(--text-color);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+a {
+  color: unset;
+  text-decoration: unset;
+  cursor: pointer;
+}
+
+p {
+  margin: 10px 0;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+label {
+  font-size: 16px;
+  display: block;
+}
+
+button, input {
+  padding: 4px;
+  border: 1px solid var(--disabled-color);
+}
+
+button {
+  outline: none;
+  background: transparent;
+  border-radius: 5px;
+  color: var(--primary-color);
+  transition: all ease 0.8s;
+  cursor: pointer;
+}
+
+button.active {
+  color: var(--primary-color);
+}
+
+button.active:after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  padding-top: 4px;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+input:focus {
+  outline: none;
+}
+
+select {
+  outline: none;
+  height: 40px;
+}
+
+li {
+  list-style-type: none;
+}
+
+nav {
+  background-color: var(--nav-bg-color);
+  color: var(--nav-font-color);
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+}
+
+nav h1 {
+  margin: unset;
+}
+
+.template-card {
+  background-color: var(--template-card-color);
+}
+
+.template-card-header {
+  background-color: var(--template-card-header-color);
+  font-weight: 700;
+  color: var(--template-card-color)
+}
