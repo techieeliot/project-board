@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Row, Col } from 'antd';
+import { Card, Row, Col } from 'antd';
 
 const gutters = {};
 const vgutters = {};
@@ -47,7 +47,9 @@ function App() {
         <Lane key={i.toString()} span={24 / colCount}>
           <ColHeader>Template</ColHeader>
           <CardColumn>
-            
+            <CardStyled className="template-card" title="Template Card" bordered={false}>
+            New Document Template
+            </CardStyled>
           </CardColumn>
         </Lane>,
       );
@@ -156,5 +158,20 @@ const CardColumn = styled(Col)`
   width: 200px;
   background: #E3E0E2;
   min-height: 100%;
+`
+
+const CardStyled = styled(Card)`
+  min-height: 8rem;
+
+  .ant-card-head {
+    background-color: var(--template-card-header-color);
+    font-weight: 700;
+    color: var(--template-card-color);
+    padding: 0 1rem;
+  }
+
+  .ant-card-body {
+    padding: 0 1rem;
+  }
 `
 

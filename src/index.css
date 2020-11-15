@@ -102,9 +102,3 @@ nav h1 {
 .template-card {
   background-color: var(--template-card-color);
 }
-
-.template-card-header {
-  background-color: var(--template-card-header-color);
-  font-weight: 700;
-  color: var(--template-card-color)
-}
