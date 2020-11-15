@@ -45,7 +45,10 @@ function App() {
     for (let i = 0; i < colCount; i++) {
       cols.push(
         <Lane key={i.toString()} span={24 / colCount}>
-          <div>Column</div>
+          <ColHeader>Template</ColHeader>
+          <CardColumn>
+            
+          </CardColumn>
         </Lane>,
       );
       colCode += `  <Lane span={${24 / colCount}} />\n`;
@@ -88,7 +91,7 @@ const Window = styled.main`
 `
 
 const Board = styled.section`
-  margin: 5rem 0 0 1rem;
+  margin: 4rem 0 0 1rem;
   min-width: 100vw;
   min-height: 200vw;
   overflow-y: scroll;
@@ -138,5 +141,20 @@ const RowStyled = styled(Row)`
 
 const Lane = styled(Col)`
   width: 200px;
+  margin: 0.25rem;
+`
+
+const ColHeader = styled.h3`
+  width: 200px;
+  min-height: 1.5rem;
+  background: #FAF7FA;
+  padding: 0.5rem;
+  text-align: center;
+`
+
+const CardColumn = styled(Col)`
+  width: 200px;
+  background: #E3E0E2;
+  min-height: 100%;
 `
 
