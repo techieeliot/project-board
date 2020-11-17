@@ -27,15 +27,15 @@ function App() {
   })
 
   const onGutterChange = gutterKey => {
-    setBoard({ ...gutterKey });
+    setBoard({ ...board, gutterKey });
   };
 
   const onVGutterChange = vgutterKey => {
-    setBoard({ ...vgutterKey });
+    setBoard({ ...board, vgutterKey });
   };
 
   const onColCountChange = colCountKey => {
-    setBoard({ ...colCountKey });
+    setBoard({ ...board, colCountKey });
   };
 
   const { gutterKey, vgutterKey, colCountKey } = board;
