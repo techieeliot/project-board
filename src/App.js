@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Row, Col } from 'antd';
+import { DndProvider, DragSource, DragTarget, DragDropContext } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { ItemTypes } from './Constants'
+import { useDrag, useDrop } from 'react-dnd'
 
 const gutters = {};
 const vgutters = {};
@@ -38,6 +42,21 @@ function App() {
     setBoard({ ...colCountKey });
   };
 
+  const [{isDragging}, drag] = useDrag({
+    item: { type: ItemTypes.CARD },
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  })
+
+  const [{ isOver }, drop] = useDrop({
+    accept: ItemTypes.CARD,
+    drop: () => console.log('drop'),
+    collect: monitor => ({
+      isOver: !!monitor.isOver(),
+    }),
+  })
+
   const { gutterKey, vgutterKey, colCountKey } = board;
     const cols = [];
     const colCount = colCounts[colCountKey];
@@ -46,11 +65,39 @@ function App() {
       cols.push(
         <Lane key={i.toString()} span={24 / colCount}>
           <ColHeader>Template</ColHeader>
-          <CardColumn>
-            <CardStyled className="template-card" title="Template Card" bordered={false}>
-            New Document Template
-            </CardStyled>
-          </CardColumn>
+            <CardColumn 
+              ref={drop}
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+              }}
+            >
+              <CardStyled className="template-card" title="Template Card" bordered={false}
+              ref={drag}
+              style={{
+                opacity: isDragging ? 0.5 : 1,
+                fontSize: 25,
+                fontWeight: 'bold',
+                cursor: 'move',
+              }}>
+              New Document Template
+              </CardStyled>
+            </CardColumn>
+          {isOver && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: '100%',
+              zIndex: 1,
+              opacity: 0.5,
+              backgroundColor: 'yellow',
+            }}
+            />
+            )}
         </Lane>,
       );
       colCode += `  <Lane span={${24 / colCount}} />\n`;
@@ -58,32 +105,37 @@ function App() {
 
   return (
     <>
-      <Nav>
-        <section>
-          <NavList>
-            <LogoWrapper>Logo</LogoWrapper>
-            <Title>
-              <h1>Border Title</h1>
-            </Title>
-          </NavList>
-        </section>
-        <section>
-          <NavListRight>
-            <Icon>Icon</Icon>
-            <Icon>Icon</Icon>
-            <Icon>Icon</Icon>
-            <Icon>Icon</Icon>
-          </NavListRight>
-        </section>
-      </Nav>
-      <Window>
-        <Board>
-          <RowStyled gutter={[gutters[gutterKey], vgutters[vgutterKey]]}>{cols}</RowStyled>
-        </Board>
-      </Window>
+      <DndProvider backend={HTML5Backend}>
+        <DragDropContext>
+
+        <Toolbar>
+          <section>
+            <ToolbarLeft>
+              <LogoWrapper></LogoWrapper>
+              <Title>
+                <h1>Border Title</h1>
+              </Title>
+            </ToolbarLeft>
+          </section>
+          <section>
+            <ToolbarRight>
+              <Icon>Icon</Icon>
+              <Icon>Icon</Icon>
+            </ToolbarRight>
+          </section>
+        </Toolbar>
+        <Window>
+          <Board>
+            <RowStyled gutter={[gutters[gutterKey], vgutters[vgutterKey]]}>{cols}</RowStyled>
+          </Board>
+        </Window>
+        </DragDropContext>
+      </DndProvider>
     </>
   )
 }
+
+DragSource(ItemTypes.CARD)(Card)
 
 export default App;
 
@@ -121,17 +173,17 @@ const Icon = styled.li`
   text-align: center;
 `
 
-const Nav = styled.nav`
+const Toolbar = styled.nav`
   min-width: 100vw;
   height: 4rem; 
   display: flex;
   justify-content: space-between;
 `
-const NavList = styled.ul`
+const ToolbarLeft = styled.ul`
   display: flex;
   flex-direction: row;
 `
-const NavListRight = styled.ul`
+const ToolbarRight = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -146,7 +198,7 @@ const Lane = styled(Col)`
   margin: 0.25rem;
 `
 
-const ColHeader = styled.h3`
+const ColHeader = styled.header`
   width: 200px;
   min-height: 1.5rem;
   background: #FAF7FA;
@@ -167,11 +219,11 @@ const CardStyled = styled(Card)`
     background-color: var(--template-card-header-color);
     font-weight: 700;
     color: var(--template-card-color);
-    padding: 0 1rem;
+    padding: 0.25rem 1rem;
   }
 
   .ant-card-body {
-    padding: 0 1rem;
+    padding: 0.25rem 1rem;
   }
 `
 
